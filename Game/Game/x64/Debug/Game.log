@@ -1,0 +1,8 @@
+﻿  Engine.cpp
+  Game.cpp
+D:\C++ Projects\Space-Shooter-cpp\Game\Game\EngineTime.h(8,38): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+D:\C++ Projects\Space-Shooter-cpp\Game\Game\Game.cpp(23,43): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+D:\C++ Projects\Space-Shooter-cpp\Game\Game\Game.cpp(27,43): warning C4244: 'argument': conversion from 'float' to 'Uint32', possible loss of data
+  GameManager.cpp
+  Generating Code...
+  Game.vcxproj -> D:\C++ Projects\Space-Shooter-cpp\Game\x64\Debug\Game.exe
