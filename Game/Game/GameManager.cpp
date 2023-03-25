@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-GameManager* GameManager::_instancePtr = NULL;
+GameManager* GameManager::_instancePtr = nullptr;
 
 void GameManager::Init(SDL_Renderer* _renderer)
 {

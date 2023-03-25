@@ -3,6 +3,8 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "TextureManager.h"
+#include "InputSystem.h"
+using namespace std;
 
 class Engine
 {

@@ -14,6 +14,7 @@ using namespace std;
 class GameManager
 { 
 public:
+	// deleting copy constructor
 	GameManager(const GameManager& obj) = delete;
 
 	static GameManager* getInstance()
@@ -29,7 +30,7 @@ public:
 	}
 
 	void Init(SDL_Renderer* _renderer);
-	std::vector<GameObject*> _worldObjects;
+	vector<GameObject*> _worldObjects;
 
 private:
 	static GameManager* _instancePtr;

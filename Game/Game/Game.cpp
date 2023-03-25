@@ -2,12 +2,10 @@
 #include "EngineTime.h"
 
 Engine* engine = nullptr;
-EngineTime* _engineTime = nullptr;
 
 int main(int argc, char** argv)
 {
 	engine = new Engine();
-	_engineTime = new EngineTime();
 
 	Uint32 frameStart;
 
@@ -20,11 +18,11 @@ int main(int argc, char** argv)
 		engine->update();
 		engine->render();
 
-		_engineTime->deltaTime = SDL_GetTicks() - frameStart;
+		EngineTime::getInstance()->deltaTime = SDL_GetTicks() - frameStart;
 
-		if (_engineTime->getFrameDelay() > _engineTime->deltaTime)
+		if (EngineTime::getInstance()->getFrameDelay() > EngineTime::getInstance()->deltaTime)
 		{
-			SDL_Delay(_engineTime->getFrameDelay() - _engineTime->deltaTime);
+			SDL_Delay(EngineTime::getInstance()->getFrameDelay() - EngineTime::getInstance()->deltaTime);
 		}
 	}
 	engine->clean();

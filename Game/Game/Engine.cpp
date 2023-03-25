@@ -41,6 +41,12 @@ void Engine::sdlevent()
 	case SDL_QUIT:
 		_isRunning = false;
 		break;
+	case SDL_KEYDOWN:
+		InputSystem::getInstance()->RaiseEvent(sdlEvent.key.keysym.sym, InputSystem::Down);
+		break;
+	case SDL_KEYUP:
+		InputSystem::getInstance()->RaiseEvent(sdlEvent.key.keysym.sym, InputSystem::Up);
+		break;
 	}
 }
 

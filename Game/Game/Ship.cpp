@@ -13,6 +13,8 @@ Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, in
 	_transform._position = _position;
 
 	this->_size = _size;
+
+	InputSystem::getInstance()->addListener(this);
 }
 
 Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale, int _size)
@@ -30,6 +32,8 @@ Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Ve
 	_transform._scale = _scale;
 
 	this->_size = _size;
+
+	InputSystem::getInstance()->addListener(this);
 }
 
 void Ship::Update()
@@ -43,4 +47,49 @@ void Ship::Update()
 void Ship::Draw()
 {
 	SDL_RenderCopy(_renderer, _texture, NULL, &destRect);
+}
+
+Ship::~Ship()
+{
+	InputSystem::getInstance()->removeListener(this);
+}
+
+void Ship::OnKeyDown(SDL_Keycode key)
+{
+	if (key == SDLK_d)
+	{
+		_transform._position += Vector2(1, 0) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+	}
+	if (key == SDLK_a)
+	{
+		_transform._position -= Vector2(1, 0) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+	}
+	if (key == SDLK_w)
+	{
+		_transform._position -= Vector2(0, 1) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+	}
+	if (key == SDLK_s)
+	{
+		_transform._position += Vector2(0, 1) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+	}
+}
+
+void Ship::OnKeyUp(SDL_Keycode key)
+{
+	if (key == SDLK_d)
+	{
+		_transform._position += Vector2(0, 0);
+	}
+	if (key == SDLK_a)
+	{
+		_transform._position -= Vector2(0, 0);
+	}
+	if (key == SDLK_w)
+	{
+		_transform._position -= Vector2(0, 0);
+	}
+	if (key == SDLK_s)
+	{
+		_transform._position += Vector2(0, 0);
+	}
 }

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include <SDL.h>
 #include "TextureManager.h"
+#include "EngineTime.h"
 
 class Asteroids :
     public GameObject

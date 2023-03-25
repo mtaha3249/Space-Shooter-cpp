@@ -2,9 +2,14 @@
 #include "GameObject.h"
 #include <SDL.h>
 #include "TextureManager.h"
+#include "InputListener.h"
+#include "InputSystem.h"
+#include "EngineTime.h"
+
+#define MOVESPEED 20
 
 class Ship :
-    public GameObject
+    public GameObject, InputListener
 {
 public:
     Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, int _size);
@@ -13,9 +18,7 @@ public:
     void Update() override;
     void Draw() override;
 
-    ~Ship()
-    {
-    }
+    ~Ship();
 private:
     float _size;
     float _width, _height;
@@ -25,5 +28,10 @@ private:
     SDL_Rect destRect;
 
 protected:
+    // Inherited via InputListener
+    virtual void OnKeyDown(SDL_Keycode key) override;
+
+    virtual void OnKeyUp(SDL_Keycode key) override;
+
 };
 
