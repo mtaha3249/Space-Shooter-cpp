@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 	engine = new Engine();
 
-	Uint32 frameStart;
+	Uint32 frameStart = 0;
 
 	engine->init();
 	while (engine->running())
@@ -18,11 +18,12 @@ int main(int argc, char** argv)
 		engine->update();
 		engine->render();
 
-		EngineTime::getInstance()->deltaTime = SDL_GetTicks() - frameStart;
+		EngineTime::frameTime = SDL_GetTicks() - frameStart;
 
-		if (EngineTime::getInstance()->getFrameDelay() > EngineTime::getInstance()->deltaTime)
+		if (EngineTime::getFrameDelay() > EngineTime::frameTime)
 		{
-			SDL_Delay(EngineTime::getInstance()->getFrameDelay() - EngineTime::getInstance()->deltaTime);
+			EngineTime::deltaTime = EngineTime::getFrameDelay() - EngineTime::frameTime;
+			SDL_Delay(EngineTime::deltaTime);
 		}
 	}
 	engine->clean();

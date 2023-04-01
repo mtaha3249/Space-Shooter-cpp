@@ -1,7 +1,5 @@
 #include "EngineTime.h"
 
-EngineTime* EngineTime::_instancePtr = nullptr;
-
-EngineTime::EngineTime()
-{
-}
+int EngineTime::FPS = 120;
+float EngineTime::frameTime = 0;
+float EngineTime::deltaTime = 0;

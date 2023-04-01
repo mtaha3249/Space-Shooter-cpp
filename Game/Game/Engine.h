@@ -4,7 +4,10 @@
 #include "SDL_image.h"
 #include "TextureManager.h"
 #include "InputSystem.h"
+#include <string>
 using namespace std;
+
+static bool USE_LOGS = true;
 
 class Engine
 {
@@ -17,9 +20,10 @@ public:
 	void render();
 	void clean();
 	bool running() { return _isRunning; }
+	static void print(string log);
 private:
 	SDL_Renderer* _renderer;
 	SDL_Window* _window;
-	bool _isRunning;
+	bool _isRunning, _isFullScreen;
 protected:
 };

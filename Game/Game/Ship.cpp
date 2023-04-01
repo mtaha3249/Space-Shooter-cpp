@@ -38,10 +38,54 @@ Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Ve
 
 void Ship::Update()
 {
+	move();
 	destRect.x = _transform._position.x;
 	destRect.y = _transform._position.y;
 	destRect.w = _width * _transform._scale.x;
 	destRect.h = _height * _transform._scale.y;
+}
+
+void Ship::move()
+{
+	Vector2 movementVector = Vector2(0, 0);
+	if (_movingRight)
+	{
+		movementVector.x = 1;
+	}
+	if (_movingLeft)
+	{
+		movementVector.x = -1;
+	}
+	if (_movingUp)
+	{
+		movementVector.y = -1;
+	}
+	if (_movingDown)
+	{
+		movementVector.y = 1;
+	}
+	_transform._position += movementVector * _moveSpeed * EngineTime::deltaTime;
+	boundToScreen();
+}
+
+void Ship::boundToScreen()
+{
+	if (_transform._position.x + _width > (SCREENWIDTH - BORDER))
+	{
+		Engine::print("Right End");
+	}
+	if (_transform._position.x - _width < (0 + BORDER))
+	{
+		Engine::print("Left End");
+	}
+	if (_transform._position.y + _height > (SCREENHEIGHT - BORDER))
+	{
+		Engine::print("Bottom End");
+	}
+	if (_transform._position.y < (0 + BORDER))
+	{
+		Engine::print("Upper End");
+	}
 }
 
 void Ship::Draw()
@@ -58,19 +102,31 @@ void Ship::OnKeyDown(SDL_Keycode key)
 {
 	if (key == SDLK_d)
 	{
-		_transform._position += Vector2(1, 0) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+		if (!_movingRight)
+		{
+			_movingRight = 1;
+		}
 	}
 	if (key == SDLK_a)
 	{
-		_transform._position -= Vector2(1, 0) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+		if (!_movingLeft)
+		{
+			_movingLeft = 1;
+		}
 	}
 	if (key == SDLK_w)
 	{
-		_transform._position -= Vector2(0, 1) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+		if (!_movingUp)
+		{
+			_movingUp = 1;
+		}
 	}
 	if (key == SDLK_s)
 	{
-		_transform._position += Vector2(0, 1) * MOVESPEED * EngineTime::getInstance()->deltaTime;
+		if (!_movingDown)
+		{
+			_movingDown = 1;
+		}
 	}
 }
 
@@ -78,18 +134,18 @@ void Ship::OnKeyUp(SDL_Keycode key)
 {
 	if (key == SDLK_d)
 	{
-		_transform._position += Vector2(0, 0);
+		_movingRight = 0;
 	}
 	if (key == SDLK_a)
 	{
-		_transform._position -= Vector2(0, 0);
+		_movingLeft = 0;
 	}
 	if (key == SDLK_w)
 	{
-		_transform._position -= Vector2(0, 0);
+		_movingUp = 0;
 	}
 	if (key == SDLK_s)
 	{
-		_transform._position += Vector2(0, 0);
+		_movingDown = 0;
 	}
 }

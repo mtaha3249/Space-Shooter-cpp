@@ -34,8 +34,8 @@ Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _po
 
 void Asteroids::Update()
 {
-	_transform._position += Vector2(1, 0);
-	//_transform._position += Vector2(1, 0) * EngineTime::getInstance()->deltaTime;
+	//_transform._position += Vector2(1, 0);
+	_transform._position += Vector2(1, 0) * EngineTime::deltaTime;
 	destRect.x = _transform._position.x;
 	destRect.y = _transform._position.y;
 	destRect.w = _width * _transform._scale.x;

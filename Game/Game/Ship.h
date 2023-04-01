@@ -5,8 +5,9 @@
 #include "InputListener.h"
 #include "InputSystem.h"
 #include "EngineTime.h"
-
-#define MOVESPEED 20
+#include "Engine.h"
+#include <string>
+#include <iostream>
 
 class Ship :
     public GameObject, InputListener
@@ -26,6 +27,11 @@ private:
     SDL_Texture* _texture;
     SDL_Renderer* _renderer;
     SDL_Rect destRect;
+    float _moveSpeed = 0.1f;
+    int _movingRight, _movingLeft, _movingUp, _movingDown = 0;
+
+    void move();
+    void boundToScreen();
 
 protected:
     // Inherited via InputListener
