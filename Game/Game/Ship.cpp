@@ -64,28 +64,37 @@ void Ship::move()
 	{
 		movementVector.y = 1;
 	}
+	// diagonal moving fast
+	// multiply with 0.707f to slow down diagonal movement.
+	// https://youtu.be/TSkR1HrOQ9I?t=386
+	if (movementVector.x != 0 && movementVector.y != 0)
+	{
+		movementVector *= 0.707f;
+	}
 	_transform._position += movementVector * _moveSpeed * EngineTime::deltaTime;
 	boundToScreen();
 }
 
 void Ship::boundToScreen()
 {
-	if (_transform._position.x + _width > (SCREENWIDTH - BORDER))
+	Vector2 clampedPosition = _transform._position;
+	if (_transform._position.x + _width >= (SCREENWIDTH - BORDER))
 	{
-		Engine::print("Right End");
+		clampedPosition.x = (SCREENWIDTH - BORDER) - _width;
 	}
-	if (_transform._position.x - _width < (0 + BORDER))
+	if (_transform._position.x <= (0 + BORDER))
 	{
-		Engine::print("Left End");
+		clampedPosition.x = 0 + BORDER;
 	}
-	if (_transform._position.y + _height > (SCREENHEIGHT - BORDER))
+	if (_transform._position.y + _height >= (SCREENHEIGHT - BORDER))
 	{
-		Engine::print("Bottom End");
+		clampedPosition.y = (SCREENHEIGHT - BORDER) - _height;
 	}
-	if (_transform._position.y < (0 + BORDER))
+	if (_transform._position.y <= (0 + BORDER))
 	{
-		Engine::print("Upper End");
+		clampedPosition.y = 0 + BORDER;
 	}
+	_transform._position = clampedPosition;
 }
 
 void Ship::Draw()
