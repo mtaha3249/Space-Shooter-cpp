@@ -10,7 +10,8 @@ void GameManager::Init(SDL_Renderer* _renderer)
 
 	for (int i = 0; i < ASTEROIDS; i++)
 	{
-		_worldObjects.push_back(new Asteroids("assets/Asteroid.png", _renderer, Vector2(0 + BORDER, 0 + BORDER), Vector2(1, 1), 1));
+		/*_worldObjects.push_back(new Asteroids("assets/Asteroid.png", _renderer, Vector2(0 + BORDER, 0 + BORDER), Vector2(1, 1), 1));*/
+		_worldObjects.push_back(new Asteroids("assets/Asteroid.png", _renderer, Vector2(SCREENWIDTH / 2, 10), Vector2(1, 1), 1));
 	}
 }
 

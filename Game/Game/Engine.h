@@ -20,7 +20,7 @@ public:
 	void render();
 	void clean();
 	bool running() { return _isRunning; }
-	static void print(string log);
+
 private:
 	SDL_Renderer* _renderer;
 	SDL_Window* _window;

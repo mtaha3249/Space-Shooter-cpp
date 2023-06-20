@@ -80,11 +80,3 @@ void Engine::clean()
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
 }
-
-void Engine::print(string log)
-{
-	if (USE_LOGS)
-	{
-		std::cout << log << endl;
-	}
-}
