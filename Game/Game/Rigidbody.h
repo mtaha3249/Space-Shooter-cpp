@@ -13,6 +13,7 @@ public:
 		Dynamic = 2
 	};
 	Rigidbody(Transform _t, float _gravityScale = 1, PhysicsBodyType _bodyType = Dynamic);
+	Rigidbody(Transform _t, b2BodyDef _bodyDef);
 	b2Body* _b2body;
 
 private:

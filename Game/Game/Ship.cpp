@@ -1,23 +1,6 @@
 #include "Ship.h"
 
-Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, int _size)
-{
-	this->_renderer = _renderer;
-	this->_textureSurface = TextureManager::LoadFile(_filepath);
-
-	_width = _textureSurface->w;
-	_height = _textureSurface->h;
-
-	this->_texture = TextureManager::LoadTexture(_textureSurface, _renderer);
-
-	_transform._position = _position;
-
-	this->_size = _size;
-
-	InputSystem::getInstance()->addListener(this);
-}
-
-Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale, int _size)
+Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale)
 {
 	_transform._scale = _scale;
 	this->_renderer = _renderer;
@@ -31,7 +14,7 @@ Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Ve
 	_transform._position = _position;
 	_transform._scale = _scale;
 
-	this->_size = _size;
+	InitRigidBody();
 
 	InputSystem::getInstance()->addListener(this);
 }
@@ -39,10 +22,31 @@ Ship::Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Ve
 void Ship::Update()
 {
 	move();
+
 	destRect.x = _transform._position.x;
 	destRect.y = _transform._position.y;
 	destRect.w = _width * _transform._scale.x;
 	destRect.h = _height * _transform._scale.y;
+}
+
+void Ship::InitRigidBody()
+{
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.linearDamping = 0.02f;
+	bodyDef.awake = true;
+	bodyDef.gravityScale = 1.0f;
+
+	this->_body = new Rigidbody(this->_transform, bodyDef);
+	this->_collider = new BoxCollider();
+	this->_collider->SetBoxCollider(this->_height, this->_width);
+	this->_collider->Init(this, _body);
+
+	b2MassData b2MassData;
+	_body->_b2body->GetMassData(&b2MassData);
+	b2MassData.mass = 1;
+	b2MassData.center = b2Vec2(0, 0);
+	_body->_b2body->SetMassData(&b2MassData);
 }
 
 void Ship::move()
@@ -71,35 +75,52 @@ void Ship::move()
 	{
 		movementVector *= 0.707f;
 	}
-	_transform._position += movementVector * _moveSpeed * EngineTime::deltaTime;
+	//_transform._position += movementVector * _moveSpeed * EngineTime::deltaTime;
+	this->_body->_b2body->ApplyForceToCenter(b2Vec2(movementVector.x * _moveSpeed, movementVector.y * _moveSpeed), true);
+	_transform._position.x = _body->_b2body->GetPosition().x;
+	_transform._position.y = _body->_b2body->GetPosition().y;
+
 	boundToScreen();
 }
 
 void Ship::boundToScreen()
 {
-	Vector2 clampedPosition = _transform._position;
+	//Vector2 clampedPosition = _transform._position;
 	if (_transform._position.x + _width >= (SCREENWIDTH - BORDER))
 	{
-		clampedPosition.x = (SCREENWIDTH - BORDER) - _width;
+		// right
+		//clampedPosition.x = (SCREENWIDTH - BORDER) - _width;
+		_body->_b2body->SetLinearVelocity(b2Vec2(-1, 0));
+		Helper::print("Right");
 	}
 	if (_transform._position.x <= (0 + BORDER))
 	{
-		clampedPosition.x = 0 + BORDER;
+		// left
+		//clampedPosition.x = 0 + BORDER;
+		_body->_b2body->SetLinearVelocity(b2Vec2(1, 0));
+		Helper::print("Left");
 	}
 	if (_transform._position.y + _height >= (SCREENHEIGHT - BORDER))
 	{
-		clampedPosition.y = (SCREENHEIGHT - BORDER) - _height;
+		// bottom
+		//clampedPosition.y = (SCREENHEIGHT - BORDER) - _height;
+		_body->_b2body->SetLinearVelocity(b2Vec2(0, -1));
+		Helper::print("Bottom");
 	}
 	if (_transform._position.y <= (0 + BORDER))
 	{
-		clampedPosition.y = 0 + BORDER;
+		// top
+		//clampedPosition.y = 0 + BORDER;
+		_body->_b2body->SetLinearVelocity(b2Vec2(0, 1));
+		Helper::print("Top");
 	}
-	_transform._position = clampedPosition;
+	//_transform._position = clampedPosition;
 }
 
 void Ship::Draw()
 {
 	SDL_RenderCopy(_renderer, _texture, NULL, &destRect);
+	Helper::DrawRectangle(_renderer, Color(255, 0, 0, 255), Vector2(destRect.x, destRect.y), Vector2(destRect.w, destRect.h));
 }
 
 Ship::~Ship()

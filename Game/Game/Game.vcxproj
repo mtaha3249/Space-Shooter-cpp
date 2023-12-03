@@ -21,11 +21,13 @@
   <ItemGroup>
     <Image Include="assets\Asteroid.png" />
     <Image Include="assets\Background.jpg" />
+    <Image Include="assets\Bullet.png" />
     <Image Include="assets\Ship.png" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asteroids.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EngineTime.cpp" />
@@ -44,9 +46,11 @@
   <ItemGroup>
     <ClInclude Include="Asteroids.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionListener.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />

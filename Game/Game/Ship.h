@@ -8,20 +8,22 @@
 #include "Engine.h"
 #include <string>
 #include <iostream>
+#include "BoxCollider.h"
 
 class Ship :
     public GameObject, InputListener
 {
 public:
-    Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, int _size);
-    Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale, int _size);
+    Ship(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale);
+
+    Rigidbody* _body;
+    BoxCollider* _collider;
 
     void Update() override;
     void Draw() override;
 
     ~Ship();
 private:
-    float _size;
     float _width, _height;
     SDL_Surface* _textureSurface;
     SDL_Texture* _texture;
@@ -30,6 +32,7 @@ private:
     float _moveSpeed = 0.1f;
     int _movingRight, _movingLeft, _movingUp, _movingDown = 0;
 
+    void InitRigidBody();
     void move();
     void boundToScreen();
 

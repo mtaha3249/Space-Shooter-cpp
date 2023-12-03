@@ -7,6 +7,7 @@ public:
 	static int _velocityIteration;
 	static int _positionIteration;
 	static b2Vec2 _gravity;
+	static const float _baseRotationSpeed;
 
 	// deleting copy constructor
 	Physics(const Physics& obj) = delete;

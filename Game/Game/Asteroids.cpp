@@ -1,6 +1,6 @@
 #include "Asteroids.h"
 
-Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, int _size)
+Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, int _size, Vector2 _moveSpeedRange, Vector2 _rotateSpeedRange)
 {
 	this->_renderer = _renderer;
 	this->_textureSurface = TextureManager::LoadFile(_filepath);
@@ -16,13 +16,13 @@ Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _po
 
 	InitRigidBody();
 	InitDirection();
-	InitMoveSpeed();
+	InitSpeeds(_moveSpeedRange, _rotateSpeedRange);
 
-	_body->_b2body->ApplyLinearImpulseToCenter(b2Vec2(Helper::random(0, 2), 0), true);
-	_body->_b2body->ApplyTorque(Helper::random(10000000, 100000000), true);
+	//_body->_b2body->ApplyLinearImpulseToCenter(b2Vec2(_moveSpeed * _direction, 0), true);
+	_body->_b2body->ApplyTorque(Helper::random(-1.0f, 1.0f) * Physics::_baseRotationSpeed * _rotateSpeed, true);
 }
 
-Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale, int _size)
+Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _position, Vector2 _scale, int _size, Vector2 _moveSpeedRange, Vector2 _rotateSpeedRange)
 {
 	_transform._scale = _scale;
 	this->_renderer = _renderer;
@@ -40,10 +40,10 @@ Asteroids::Asteroids(const char* _filepath, SDL_Renderer* _renderer, Vector2 _po
 
 	InitRigidBody();
 	InitDirection();
-	InitMoveSpeed();
+	InitSpeeds(_moveSpeedRange, _rotateSpeedRange);
 
-	_body->_b2body->ApplyLinearImpulseToCenter(b2Vec2(2 * _direction, 0), true);
-	_body->_b2body->ApplyTorque(Helper::random(10000000, 100000000), true);
+	//_body->_b2body->ApplyLinearImpulseToCenter(b2Vec2(_moveSpeed * _direction, 0), true);
+	_body->_b2body->ApplyTorque(Helper::random(-1.0f, 1.0f) * Physics::_baseRotationSpeed * _rotateSpeed, true);
 }
 
 void Asteroids::Update()
@@ -66,14 +66,15 @@ void Asteroids::Update()
 void Asteroids::Draw()
 {
 	SDL_RenderCopyEx(_renderer, _texture, NULL, &_destRect, _transform._rotation.y, &_center, SDL_FLIP_NONE);
+	Helper::DrawCircle(_renderer, Color(255,0,0,255), Vector2(_transform._position.x + _center.x, _transform._position.y + _center.y), _size);
 }
 
 void Asteroids::InitRigidBody()
 {
-	this->_body = new Rigidbody(this->_transform);
-	this->collider = new CircleCollider();
-	this->collider->SetCircleCollider(this->_size);
-	this->collider->Init(this, _body);
+	this->_body = new Rigidbody(this->_transform, 0.0f, Rigidbody::Dynamic);
+	this->_collider = new CircleCollider();
+	this->_collider->SetCircleCollider(this->_size);
+	this->_collider->Init(this, _body);
 
 	b2MassData b2MassData;
 	_body->_b2body->GetMassData(&b2MassData);
@@ -82,10 +83,10 @@ void Asteroids::InitRigidBody()
 	_body->_b2body->SetMassData(&b2MassData);
 }
 
-void Asteroids::InitMoveSpeed()
+void Asteroids::InitSpeeds(Vector2 _moveSpeedRange, Vector2 _rotateSpeedRange)
 {
-	_moveSpeed = Helper::random(1.0f, 3.0f);
-	Helper::print(_moveSpeed);
+	_moveSpeed = Helper::random(_moveSpeedRange.x, _moveSpeedRange.y);
+	_rotateSpeed = Helper::random(_rotateSpeedRange.x, _rotateSpeedRange.y);
 }
 
 void Asteroids::InitDirection()

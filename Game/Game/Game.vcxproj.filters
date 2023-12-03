@@ -42,6 +42,9 @@
     <Image Include="assets\Background.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\Bullet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextureManager.cpp">
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files\Physics\Colliders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +152,12 @@
       <Filter>Header Files\Physics\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files\Physics\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

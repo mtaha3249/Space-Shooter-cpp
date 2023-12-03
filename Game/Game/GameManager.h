@@ -10,6 +10,7 @@ using namespace std;
 #define SCREENHEIGHT 720
 #define SCREENWIDTH 1280
 #define BORDER 20
+#define DRAWGIZMO true
 
 class GameManager
 { 
