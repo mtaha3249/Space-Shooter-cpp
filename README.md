@@ -1,5 +1,7 @@
 # Space Shooter cpp
- 
+
+ [Here](https://youtu.be/94006aCoY1k) is a demo video of this project. <br><br>
+ Below is the detailed documentation of classes in this project.
 
 <table><tr><th><b><i>Class Name</i></b></th><th valign="top"><b><i>Function Name</i></b></th><th valign="top"><b><i>Class/Function Description</i></b></th></tr>
 <tr><td colspan="3"><b><i>LAYER 1</i></b></td></tr>
